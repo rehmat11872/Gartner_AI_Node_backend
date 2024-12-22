@@ -1,10 +1,82 @@
-const express = require('express');
-const { createGrant, getAllGrants, getGrantById } = require('../controllers/grantController');
-const authenticate = require('../middleware/authenticate');
+import express from 'express';
+import { createGrant, getAllGrants, getGrantById } from '../controllers/grantController.js';
+import authenticate from '../middleware/authenticate.js';
+
 const router = express.Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Grants
+ *   description: Grant management APIs
+ */
+
+/**
+ * @swagger
+ * /grants:
+ *   post:
+ *     summary: Create a new grant
+ *     tags: [Grants]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: New Grant
+ *               description:
+ *                 type: string
+ *                 example: Grant description here
+ *     responses:
+ *       201:
+ *         description: Grant created successfully
+ *       401:
+ *         description: Unauthorized
+ */
 router.post('/', authenticate, createGrant);
+
+/**
+ * @swagger
+ * /grants:
+ *   get:
+ *     summary: Get all grants
+ *     tags: [Grants]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully fetched grants
+ *       401:
+ *         description: Unauthorized
+ */
 router.get('/', authenticate, getAllGrants);
+
+/**
+ * @swagger
+ * /grants/{id}:
+ *   get:
+ *     summary: Get grant by ID
+ *     tags: [Grants]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Grant ID
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully fetched grant
+ *       404:
+ *         description: Grant not found
+ */
 router.get('/:id', authenticate, getGrantById);
 
-module.exports = router;
+export default router;

@@ -1,30 +1,87 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose'); 
 const User = require('../models/user');
 
 exports.signup = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password, accountType } = req.body;
     try {
+        // Validate inputs
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
+
+        // Check if the user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ username, password: hashedPassword });
+
+        // Create a new user
+        const user = new User({
+            id: String(new mongoose.Types.ObjectId()), // Generate a unique ID
+            email,
+            password: hashedPassword,
+            accountType: accountType || 'Basic',
+            creditBalance: 0,
+        });
+
+        // Save the user to the database
         await user.save();
         res.status(201).json({ message: 'User registered successfully' });
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        console.error('Signup error:', err);
+        res.status(500).json({ message: err.message });
     }
 };
 
-
 exports.login = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
+
     try {
-        const user = await User.findOne({ username });
-        if (!user) return res.status(404).json({ message: 'User not found' });
+        // Check if email or password is missing
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
+
+        // Find user by email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Debugging logs
+        console.log("Password from request:", password);
+        console.log("Hashed password from DB:", user.password);
+
+        // Compare provided password with hashed password
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.status(200).json({ token });
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+
+        // Generate JWT
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        // Update engagement metrics
+        user.engagementMetrics.lastActivity = new Date();
+        await user.save();
+
+        res.status(200).json({
+            token,
+            userId: user.id,
+            email: user.email,
+            accountType: user.accountType,
+        });
     } catch (err) {
+        console.error("Login error:", err);
         res.status(500).json({ message: err.message });
     }
 };

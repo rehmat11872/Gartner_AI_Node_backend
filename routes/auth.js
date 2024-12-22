@@ -6,7 +6,7 @@ const router = express.Router();
 /**
  * @swagger
  * tags:
- *   name: Auth Operation
+ *   name: Auth
  *   description: User authentication and management
  */
 
@@ -23,17 +23,32 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               username:
+ *               email:
  *                 type: string
- *                 example: john_doe
+ *                 example: john_doe@gmail.com
  *               password:
  *                 type: string
  *                 example: 123456
+ *               accountType:
+ *                 type: string
+ *                 enum: [Basic, Premium]
+ *                 example: Basic
  *     responses:
  *       201:
  *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User registered successfully
+ *                 userId:
+ *                   type: string
+ *                   example: abc123
  *       400:
- *         description: Invalid input
+ *         description: Invalid input or user already exists
  */
 router.post('/signup', signup);
 
@@ -50,16 +65,35 @@ router.post('/signup', signup);
  *           schema:
  *             type: object
  *             properties:
- *               username:
+ *               email:
  *                 type: string
- *                 example: john_doe
+ *                 example: john_doe@gmail.com
  *               password:
  *                 type: string
  *                 example: 123456
  *     responses:
  *       200:
  *         description: Login successful
- *       401:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                 userId:
+ *                   type: string
+ *                   example: abc123
+ *                 email:
+ *                   type: string
+ *                   example: john_doe@gmail.com
+ *                 accountType:
+ *                   type: string
+ *                   example: Basic
+ *       404:
+ *         description: User not found
+ *       400:
  *         description: Invalid credentials
  */
 router.post('/login', login);

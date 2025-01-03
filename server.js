@@ -1,12 +1,16 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import connectDB from './config/db.js';
-import swaggerDocs from './docs/swagger.js';
+import connectDB from './config/db'; // Require connectDB
+import swaggerDocs from './docs/swagger'; // Require swaggerDocs
 
-import authRoutes from './routes/auth.js';
-import grantRoutes from './routes/grant.js';
-import questionRoutes from './routes/question.js';
+import authRoutes from './routes/auth'; // Require authRoutes
+import grantRoutes from './routes/grant'; // Require grantRoutes
+import questionRoutes from './routes/question'; // Require questionRoutes
+import funderRoutes from './routes/funder'; // Require funderRoutes
+import organizationRoutes from './routes/organization'; // Require organizationRoutes
+
+
 
 dotenv.config();
 connectDB();
@@ -22,6 +26,12 @@ app.use(cors());
 app.use('/auth', authRoutes);
 app.use('/grants', grantRoutes);
 app.use('/questions', questionRoutes);
+app.use('/questions', questionRoutes);
+app.use('/funder', funderRoutes);
+app.use('/organization', organizationRoutes);
+
+
+
 
 // Home route
 app.get('/', (req, res) => res.send('Welcome to the API'));

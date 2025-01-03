@@ -1,7 +1,8 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose'); 
-const User = require('../models/user');
+import express from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose'; 
+import User from '../models/user';
 
 exports.signup = async (req, res) => {
     const { email, password, accountType } = req.body;
@@ -71,8 +72,8 @@ exports.login = async (req, res) => {
         );
 
         // Update engagement metrics
-        user.engagementMetrics.lastActivity = new Date();
-        await user.save();
+        // user.engagementMetrics.lastActivity = new Date();
+        // await user.save();
 
         res.status(200).json({
             token,

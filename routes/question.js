@@ -1,6 +1,6 @@
-const express = require('express');
-const { submitQuestions } = require('../controllers/questionController');
-const authenticate = require('../middleware/authenticate');
+import express from 'express';
+import { submitQuestions } from '../controllers/questionController';
+import authenticate from '../middleware/authenticate';
 const router = express.Router();
 
 /**

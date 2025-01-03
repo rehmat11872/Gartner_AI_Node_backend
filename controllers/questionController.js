@@ -1,4 +1,4 @@
-const Question = require('../models/question');
+import Question from '../models/question';
 
 
 exports.submitQuestions = async (req, res) => {

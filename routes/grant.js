@@ -1,6 +1,7 @@
+
 import express from 'express';
-import { createGrant, getAllGrants, getGrantById } from '../controllers/grantController.js';
-import authenticate from '../middleware/authenticate.js';
+const authenticate = require('../middleware/authenticate.js')
+const { createGrant, getAllGrants, getGrantById } = require('../controllers/grantController.js')
 
 const router = express.Router();
 

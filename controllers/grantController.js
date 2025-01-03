@@ -1,4 +1,4 @@
-const Grant = require('../models/grant');
+import Grant from '../models/grant';
 
 exports.createGrant = async (req, res) => {
     const { title, description } = req.body;

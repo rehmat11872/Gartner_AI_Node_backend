@@ -38,6 +38,7 @@ app.get('/', (req, res) => res.send('Welcome to the API'));
 
 // Start the server and initialize Swagger Docs
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on ${process.env.NODE_ENV === 'production' ? 'https://granteater-ai-node-backend.vercel.app' : `http://localhost:${port}`}`);
+  // console.log(`Server running on port ${port}`);
   swaggerDocs(app, port); // Initialize Swagger
 });

@@ -9,15 +9,17 @@ const options = {
       version: '1.0.0',
       description: 'API documentation for Grant Management, User Authentication, and Questions',
       contact: {
-        name: 'Your Name',
-        email: 'your_email@example.com',
+        name: 'Granter',
+        email: 'granter@example.com',
         url: 'https://your-repo-url.com',
       },
     },
     servers: [
       {
-        url: 'http://localhost:5000',
-        description: 'Local server',
+        url: process.env.NODE_ENV === 'production' 
+          ? 'https://granteater-ai-node-backend.vercel.app' 
+          : 'http://localhost:5000',
+        description: process.env.NODE_ENV === 'production' ? 'Production server' : 'Local server',
       },
     ],
     components: {
@@ -48,7 +50,8 @@ function swaggerDocs(app, port) {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
-  console.log(`Swagger Docs available at http://localhost:${port}/docs`);
+  console.log(`Swagger Docs available at ${process.env.NODE_ENV === 'production' ? 'https://granteater-ai-node-backend.vercel.app/docs' : `http://localhost:${port}/docs`}`);
+  // console.log(`Swagger Docs available at http://localhost:${port}/docs`);
 }
 
 export default swaggerDocs;

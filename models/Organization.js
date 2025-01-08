@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const OrganizationSchema = new mongoose.Schema({
   organizationId: { type: String, required: true },
@@ -7,29 +7,10 @@ const OrganizationSchema = new mongoose.Schema({
   organizationApproach: { type: String },
   organizationAnnualBudget: { type: Number },
   organizationWebsite: { type: String },
-  organizationContact: {
-    contactName: { type: String },
-    contactEmail: { type: String },
-    contactPhone: { type: String },
-  },
-  organizationAddress: {
-    streetAddress: { type: String },
-    city: { type: String },
-    state: { type: String },
-    postalCode: { type: String },
-    country: { type: String },
-  },
-  organizationStaff: [
-    {
-      staffId: { type: String },
-      staffName: { type: String },
-      staffRole: { type: String },
-      staffBio: { type: String },
-      staffEmail: { type: String },
-    },
-  ],
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to user
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Organization', OrganizationSchema);
+const Organization = mongoose.model('Organization', OrganizationSchema);
+export default Organization

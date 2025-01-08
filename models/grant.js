@@ -1,18 +1,19 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const GrantSchema = new mongoose.Schema({
-  grantId: { type: String, required: true },
-  grantTitle: { type: String, required: true },
-  grantAmountRequested: { type: Number },
-  grantPurpose: { type: String },
-  grantApproach: { type: String },
-  organizationId: { type: String, required: true },
-  grantStatusOptions: {
-    type: String,
-    enum: ['Submitted', 'Under Review', 'Awarded', 'Declined'],
-  },
-  submissionDeadline: { type: Date },
-  lastUpdated: { type: Date, default: Date.now },
+  _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+  title: { type: String, required: true }, // Grant title
+  organizationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization', required: true }, // Links the grant to an organization
+  funderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Funder' }, // Optional link to a funder
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // The user who created the grant
+  dueDate: { type: Date, required: true }, // Grant application deadline
+  status: { type: String, enum: ['Draft', 'Submitted', 'Under Review', 'Awarded', 'Declined'], default: 'Draft' }, // Grant status
+  questions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }], // References to questions associated with this grant
+  guidelines: { type: String }, // Grant-specific guidelines or instructions
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Grant', GrantSchema);
+const Grant  = mongoose.model('Grant', GrantSchema);
+
+export default Grant;

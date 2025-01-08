@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/user';
+import User from '../models/user.js';
 
 const authenticate = async (req, res, next) => {
     const token = req.headers['authorization'];
@@ -14,7 +14,7 @@ const authenticate = async (req, res, next) => {
         res.status(401).json({ message: 'Invalid token' });
     }
 };
-module.exports = authenticate;
+export default authenticate;
 
 // import jwt from 'jsonwebtoken';
 // import User from '../models/user';

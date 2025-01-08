@@ -1,7 +1,7 @@
-import Question from '../models/question';
+import Question from '../models/question.js';
 
 
-exports.submitQuestions = async (req, res) => {
+export const submitQuestions = async (req, res) => {
     const { questions, grantId } = req.body;
     try {
         const question = new Question({ questions, grantId, submittedBy: req.user._id });

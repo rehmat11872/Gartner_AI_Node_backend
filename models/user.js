@@ -8,13 +8,17 @@ const UserSchema = new mongoose.Schema({
   creditBalance: { type: Number, default: 0 },
   subscription: {
     tier: { type: String, enum: ['Basic', 'Professional'], default: 'Basic' },
-    status: { type: String, enum: ['active', 'inactive', 'canceled'], default: 'active' },
+    status: { type: String, enum: ['active', 'inactive', 'canceled'], default: 'inactive' },
     stripeCustomerId: { type: String },
   },
   organization_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' }], // Linking user to organizations
-  funder_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Funder' }, // Optional funder link
+  funder_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Funder' }],
+  // funder_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Funder' }, // Optional funder link
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('User', UserSchema);
+
+const User = mongoose.model('User', UserSchema);
+
+export default User;

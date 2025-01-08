@@ -1,6 +1,6 @@
 import express from 'express';
-import { submitQuestions } from '../controllers/questionController';
-import authenticate from '../middleware/authenticate';
+import { submitQuestions } from '../controllers/questionController.js';
+import authenticate from '../middleware/authenticate.js';
 const router = express.Router();
 
 /**
@@ -45,4 +45,4 @@ const router = express.Router();
  */
 router.post('/', authenticate, submitQuestions);
 
-module.exports = router;
+export default router;

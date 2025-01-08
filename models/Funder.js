@@ -15,4 +15,6 @@ const FunderSchema = new mongoose.Schema({
   lastUpdated: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Funder', FunderSchema);
+const Funder = mongoose.model('Funder', FunderSchema);
+
+export default Funder

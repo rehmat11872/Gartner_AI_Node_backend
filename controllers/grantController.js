@@ -1,6 +1,6 @@
-import Grant from '../models/grant';
+import Grant from '../models/grant.js';
 
-exports.createGrant = async (req, res) => {
+export const createGrant = async (req, res) => {
     const { title, description } = req.body;
     try {
         const grant = new Grant({ title, description, createdBy: req.user._id });
@@ -11,7 +11,7 @@ exports.createGrant = async (req, res) => {
     }
 };
 
-exports.getAllGrants = async (req, res) => {
+export const getAllGrants = async (req, res) => {
     try {
         const grants = await Grant.find().populate('createdBy', 'username');
         res.status(200).json(grants);
@@ -20,7 +20,7 @@ exports.getAllGrants = async (req, res) => {
     }
 };
 
-exports.getGrantById = async (req, res) => {
+export const getGrantById = async (req, res) => {
     try {
         const grant = await Grant.findById(req.params.id).populate('createdBy', 'username');
         if (!grant) return res.status(404).json({ message: 'Grant not found' });

@@ -16,4 +16,7 @@ const QuestionSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }, // Last update timestamp
 });
 
-module.exports = mongoose.model('Question', QuestionSchema);
+
+const Question = mongoose.model('Question', QuestionSchema);
+
+export default Question;

@@ -16,4 +16,4 @@ const organizationLimitMiddleware = async (req, res, next) => {
     }
 };
 
-module.exports = organizationLimitMiddleware;
+export default organizationLimitMiddleware;

@@ -14,4 +14,6 @@ const GrantSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Grant', GrantSchema);
+const Grant  = mongoose.model('Grant', GrantSchema);
+
+export default Grant;

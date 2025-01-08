@@ -1,10 +1,9 @@
-import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose'; 
-import User from '../models/user';
+import User from '../models/user.js';
 
-exports.signup = async (req, res) => {
+export const signup = async (req, res) => {
     const { email, password, accountType } = req.body;
     try {
         // Validate inputs
@@ -39,7 +38,7 @@ exports.signup = async (req, res) => {
     }
 };
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {

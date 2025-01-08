@@ -2,14 +2,20 @@
   "version": 2,
   "builds": [
     {
-      "src": "./server.js",
+      "src": "server.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/server.js"
     }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "MONGO_URI": "mongodb+srv://raorehmat11:9S3ftdOZWqLHOmK3@gartneraicluster0.nmjir.mongodb.net/?retryWrites=true&w=majority&appName=GartnerAICluster0",
+    "JWT_SECRET": "a3c9f9234b8c4b9e9b3b4f91f3e9f9c9a0f4f91c7e2f3d9c4f9f9b4f91e2d3b1",
+    "PORT": "5000"
+  }
 }

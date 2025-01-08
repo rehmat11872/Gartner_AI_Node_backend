@@ -22,15 +22,19 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
+// Base API prefix
+// const apiRouter = express.Router();
+
 // Routes
-app.use('/auth', authRoutes);
-app.use('/grants', grantRoutes);
-app.use('/questions', questionRoutes);
-app.use('/questions', questionRoutes);
-app.use('/funder', funderRoutes);
-app.use('/organization', organizationRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/grants', grantRoutes);
+app.use('/api/questions', questionRoutes);
+app.use('/api/questions', questionRoutes);
+app.use('/api/funder', funderRoutes);
+app.use('/api/organization', organizationRoutes);
 
-
+// Attach the prefixed router to the app
+// app.use('/api', apiRouter);
 
 
 // Home route

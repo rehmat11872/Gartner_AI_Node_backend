@@ -44,13 +44,13 @@ const swaggerSpec = swaggerJsdoc(options);
 
 function swaggerDocs(app, port) {
   // Swagger UI route
-  app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   // Raw Swagger JSON
   app.get('/docs.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
-  console.log(`Swagger Docs available at ${process.env.NODE_ENV === 'production' ? 'https://granteater-ai-node-backend.vercel.app/docs' : `http://localhost:${port}/docs`}`);
+  console.log(`Swagger Docs available at ${process.env.NODE_ENV === 'production' ? 'https://granteater-ai-node-backend.vercel.app/api/docs' : `http://localhost:${port}/api/docs`}`);
   // console.log(`Swagger Docs available at http://localhost:${port}/docs`);
 }
 

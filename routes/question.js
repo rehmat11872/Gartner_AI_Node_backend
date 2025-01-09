@@ -12,7 +12,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /questions:
+ * /api/questions:
  *   post:
  *     summary: Submit questions for a grant
  *     tags: [Questions]

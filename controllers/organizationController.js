@@ -1,4 +1,5 @@
 import Organization from '../models/organization.js';
+import User from '../models/user.js';
 import mongoose from 'mongoose';
 
 /**
@@ -7,6 +8,11 @@ import mongoose from 'mongoose';
 export const createOrganization = async (req, res) => {
     const { organizationName, organizationMission, organizationApproach, organizationAnnualBudget, organizationWebsite } = req.body;
     try {
+        if (!req.user || !req.user._id) {
+            return res.status(400).json({ message: 'User not authenticated.' });
+        }
+        
+
         const organization = new Organization({
             organizationId: new mongoose.Types.ObjectId().toString(),
             organizationName,
@@ -18,9 +24,20 @@ export const createOrganization = async (req, res) => {
         });
 
         await organization.save();
-        res.status(201).json({ message: 'Organization created successfully.', organizationId: organization._id });
+
+        
+
+        // Update user's organization creation status
+        const user = await User.findById(req.user._id);
+        user.onboardingStatus = 'organization_created';
+        user.hasCreatedOrganization = true;
+        await user.save();
+
+        res.status(201).json({ message: 'Organization created successfully.', organizationId: organization._id, res:organization });
     } catch (err) {
-        res.status(500).json({ message: 'Error creating organization.', error: err });
+        console.error('Error creating organization:', err);  // Log the error to the console for debugging
+        res.status(500).json({ message: 'Error creating organization.', error: err.message || err });  // Return error details
+        // res.status(500).json({ message: 'Error creating organization.', error: err });
     }
 };
 

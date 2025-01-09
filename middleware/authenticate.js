@@ -2,37 +2,33 @@ import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 
 const authenticate = async (req, res, next) => {
-    const token = req.headers['authorization'];
+    const token = req.headers['authorization']?.split(' ')[1];  // Safe splitting
 
-    if (!token) return res.status(401).json({ message: 'Unauthorized' });
+    if (!token) {
+        console.log("No token provided");
+        return res.status(401).json({ message: 'Unauthorized, token not provided' });
+    }
+
     try {
+        console.log("Token received:", token);  // Debugging print
+
+        // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("Decoded token:", decoded);  // Print decoded token for debugging
+
+        // Find user by ID
         req.user = await User.findById(decoded.id);
-        if (!req.user) return res.status(401).json({ message: 'User not found' });
+        if (!req.user) {
+            console.log("User not found");
+            return res.status(401).json({ message: 'User not found' });
+        }
+
         next();
     } catch (err) {
-        res.status(401).json({ message: 'Invalid token' });
+        console.error("Token verification failed:", err);  // Debugging print
+        return res.status(401).json({ message: 'Invalid token' });
     }
 };
+
+
 export default authenticate;
-
-// import jwt from 'jsonwebtoken';
-// import User from '../models/user';
-
-// const authMiddleware = async (req, res, next) => {
-//     const token = req.header('Authorization')?.replace('Bearer ', '');
-
-//     if (!token) {
-//         return res.status(401).json({ message: 'No token provided, authorization denied.' });
-//     }
-
-//     try {
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//         req.user = await User.findById(decoded.id).select('-password');
-//         next();
-//     } catch (err) {
-//         res.status(401).json({ message: 'Invalid token.' });
-//     }
-// };
-
-// module.exports = authMiddleware;

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
-  _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+  // _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
   email: { type: String, required: true, unique: true, match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
   password: { type: String, required: true },
   accountType: { type: String, enum: ['Basic', 'Professional'], default: 'Basic' },
@@ -13,6 +13,13 @@ const UserSchema = new mongoose.Schema({
   },
   organization_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' }], // Linking user to organizations
   funder_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Funder' }],
+  onboardingStatus: {
+    type: String,
+    enum: ['incomplete', 'account_type_selected', 'organization_created', 'funder_created', 'complete'],
+    default: 'incomplete',
+  },
+  hasCreatedOrganization: { type: Boolean, default: false },
+  hasCreatedFunder: { type: Boolean, default: false }, // Optional
   // funder_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Funder' }, // Optional funder link
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },

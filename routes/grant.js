@@ -14,7 +14,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /grants:
+ * /api/grants:
  *   post:
  *     summary: Create a new grant
  *     tags: [Grants]
@@ -43,7 +43,7 @@ router.post('/', authenticate, createGrant);
 
 /**
  * @swagger
- * /grants:
+ * /api/grants:
  *   get:
  *     summary: Get all grants
  *     tags: [Grants]
@@ -59,7 +59,7 @@ router.get('/', authenticate, getAllGrants);
 
 /**
  * @swagger
- * /grants/{id}:
+ * /api/grants/{id}:
  *   get:
  *     summary: Get grant by ID
  *     tags: [Grants]

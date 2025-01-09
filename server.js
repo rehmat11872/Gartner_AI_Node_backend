@@ -9,7 +9,7 @@ import grantRoutes from './routes/grant.js'; // Require grantRoutes
 import questionRoutes from './routes/question.js'; // Require questionRoutes
 import funderRoutes from './routes/funder.js'; // Require funderRoutes
 import organizationRoutes from './routes/organization.js'; // Require organizationRoutes
-
+import onBoardingRoutes from './routes/onBoarding.js'; 
 
 
 dotenv.config();
@@ -27,6 +27,7 @@ app.use(cors());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/onboarding', onBoardingRoutes);
 app.use('/api/grants', grantRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/questions', questionRoutes);

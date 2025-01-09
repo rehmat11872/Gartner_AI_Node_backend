@@ -22,16 +22,21 @@ export const signup = async (req, res) => {
 
         // Create a new user
         const user = new User({
-            id: String(new mongoose.Types.ObjectId()), // Generate a unique ID
+            // id: String(new mongoose.Types.ObjectId()), // Generate a unique ID
             email,
             password: hashedPassword,
             accountType: accountType || 'Basic',
             creditBalance: 0,
+            onboardingStatus: 'incomplete',
         });
 
         // Save the user to the database
         await user.save();
-        res.status(201).json({ message: 'User registered successfully' });
+
+        // Exclude password from the response and return user object
+        const userResponse = await User.findById(user._id).select('-password'); // Excluding the password field
+
+        res.status(201).json({  user: userResponse, message: 'User registered successfully' });
     } catch (err) {
         console.error('Signup error:', err);
         res.status(500).json({ message: err.message });

@@ -34,11 +34,16 @@ app.use('/api/organization', organizationRoutes);
 app.get('/', (req, res) => res.send('Welcome to the API'));
 
 
-app.listen(port, () => {
-  console.log(`Server running on ${process.env.NODE_ENV === 'production' ? 'https://granteater-ai-node-backend.vercel.app' : `http://localhost:${port}`}`);
-  // console.log(`Server running on port ${port}`);
-  swaggerDocs(app, port); // Initialize Swagger
-});
+// Initialize Swagger Docs (only in production)
+if (process.env.NODE_ENV === 'production') {
+  swaggerDocs(app);  // Initialize Swagger in production only
+}
+
+// app.listen(port, () => {
+//   console.log(`Server running on ${process.env.NODE_ENV === 'production' ? 'https://granteater-ai-node-backend.vercel.app' : `http://localhost:${port}`}`);
+//   // console.log(`Server running on port ${port}`);
+//   swaggerDocs(app, port); // Initialize Swagger
+// });
 
 
 // Initialize Swagger (only if necessary on startup)

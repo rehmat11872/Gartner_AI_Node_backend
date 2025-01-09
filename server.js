@@ -12,12 +12,6 @@ import organizationRoutes from './routes/organization.js'; // Require organizati
 import onBoardingRoutes from './routes/onBoarding.js'; 
 
 
-import authRoutes from './routes/auth.js';
-import grantRoutes from './routes/grant.js';
-import questionRoutes from './routes/question.js';
-import funderRoutes from './routes/funder.js';
-import organizationRoutes from './routes/organization.js';
-
 dotenv.config();
 connectDB();
 

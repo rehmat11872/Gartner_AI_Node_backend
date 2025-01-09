@@ -39,8 +39,16 @@ app.use('/api/organization', organizationRoutes);
 // Home route
 app.get('/', (req, res) => res.send('Welcome to the API'));
 
+
+app.listen(port, () => {
+  console.log(`Server running on ${process.env.NODE_ENV === 'production' ? 'https://granteater-ai-node-backend.vercel.app' : `http://localhost:${port}`}`);
+  // console.log(`Server running on port ${port}`);
+  swaggerDocs(app, port); // Initialize Swagger
+});
+
+
 // Initialize Swagger (only if necessary on startup)
-swaggerDocs(app, port);
+// swaggerDocs(app, port);
 
 // Export the app for Vercel
 export default app;

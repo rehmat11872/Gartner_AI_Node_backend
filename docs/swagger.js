@@ -21,6 +21,11 @@ const options = {
           : 'http://localhost:5000',
         description: process.env.NODE_ENV === 'production' ? 'Production server' : 'Local server',
       },
+      {
+        url: 'http://granteater-ai-node-backend.vercel.app',  // Adding HTTP as an alternative for production (if needed)
+        description: 'HTTP access to the API (fallback)',
+      },
+      
     ],
     components: {
       securitySchemes: {

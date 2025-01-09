@@ -31,7 +31,15 @@ app.use('/api/funder', funderRoutes);
 app.use('/api/organization', organizationRoutes);
 
 // Home route
-app.get('/', (req, res) => res.send('Welcome to the API'));
+app.get('/', (req, res) => {
+  // If the client asks for JSON
+  if (req.accepts('json')) {
+    return res.json({ message: 'Welcome to the API' });
+  }
+
+  // Otherwise return text
+  return res.send('Welcome to the API');
+});
 
 
 // Initialize Swagger Docs (only in production)

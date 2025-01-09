@@ -1,7 +1,17 @@
 import express from 'express';
 import { createOrganization, getOrganizations, getOrganizationById, updateOrganization, deleteOrganization } from '../controllers/organizationController.js';
-
+import  authenticate  from '../middleware/authenticate.js';
 const router = express.Router();
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
 
 /**
  * @swagger
@@ -12,10 +22,12 @@ const router = express.Router();
 
 /**
  * @swagger
- * /organization/create:
+ * /api/organization/create:
  *   post:
  *     summary: Create a new Organization
  *     tags: [Organizations]
+ *     security:
+ *       - bearerAuth: []  # This line requires the token to be passed
  *     requestBody:
  *       required: true
  *       content:
@@ -41,10 +53,6 @@ const router = express.Router();
  *               organizationWebsite:
  *                 type: string
  *                 example: "https://www.globalhealth.org"
- *               createdBy:
- *                 type: string
- *                 description: The user ID of the creator
- *                 example: "60b8c1a2f8d7b834d5d5f25e"
  *     responses:
  *       201:
  *         description: Organization created successfully
@@ -66,11 +74,11 @@ const router = express.Router();
  *       500:
  *         description: Internal server error
  */
-router.post('/create', createOrganization);
+router.post('/create', authenticate, createOrganization);
 
 /**
  * @swagger
- * /organization/list:
+ * /api/organization/list:
  *   get:
  *     summary: Get all organizations
  *     tags: [Organizations]
@@ -95,7 +103,7 @@ router.get('/list', getOrganizations);
 
 /**
  * @swagger
- * /organization/list/{id}:
+ * /api/organization/list/{id}:
  *   get:
  *     summary: Get an organization by ID
  *     tags: [Organizations]
@@ -127,7 +135,7 @@ router.get('/list/:id', getOrganizationById);
 
 /**
  * @swagger
- * /organization/update/{id}:
+ * /api/organization/update/{id}:
  *   put:
  *     summary: Update an organization by ID
  *     tags: [Organizations]
@@ -174,7 +182,7 @@ router.put('/update/:id', updateOrganization);
 
 /**
  * @swagger
- * /organization/delete/{id}:
+ * /api/organization/delete/{id}:
  *   delete:
  *     summary: Delete an organization by ID
  *     tags: [Organizations]

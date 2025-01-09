@@ -12,7 +12,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /funder/create:
+ * /api/funder/create:
  *   post:
  *     summary: Create a new Funder
  *     tags: [Funder]
@@ -76,7 +76,7 @@ router.post('/create', createFunder);
 
 /**
  * @swagger
- * /funder/list:
+ * /api/funder/list:
  *   get:
  *     summary: Get all funders
  *     tags: [Funder]
@@ -101,7 +101,7 @@ router.get('/list', getFunders);
 
 /**
  * @swagger
- * /funder/list/{id}:
+ * /api/funder/list/{id}:
  *   get:
  *     summary: Get a funder by ID
  *     tags: [Funder]
@@ -133,7 +133,7 @@ router.get('/list/:id', getFunderById);
 
 /**
  * @swagger
- * /funder/update/{id}:
+ * /api/funder/update/{id}:
  *   put:
  *     summary: Update a funder by ID
  *     tags: [Funder]
@@ -180,7 +180,7 @@ router.put('/update/:id', updateFunder);
 
 /**
  * @swagger
- * /funder/delete/{id}:
+ * /api/funder/delete/{id}:
  *   delete:
  *     summary: Delete a funder by ID
  *     tags: [Funder]

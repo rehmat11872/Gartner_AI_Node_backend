@@ -1,8 +1,16 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import connectDB from './config/db.js';
-import swaggerDocs from './docs/swagger.js';
+import connectDB from './config/db.js'; // Require connectDB
+import swaggerDocs from './docs/swagger.js'; // Require swaggerDocs
+
+import authRoutes from './routes/auth.js'; // Require authRoutes
+import grantRoutes from './routes/grant.js'; // Require grantRoutes
+import questionRoutes from './routes/question.js'; // Require questionRoutes
+import funderRoutes from './routes/funder.js'; // Require funderRoutes
+import organizationRoutes from './routes/organization.js'; // Require organizationRoutes
+import onBoardingRoutes from './routes/onBoarding.js'; 
+
 
 import authRoutes from './routes/auth.js';
 import grantRoutes from './routes/grant.js';
@@ -22,6 +30,7 @@ app.use(cors());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/onboarding', onBoardingRoutes);
 app.use('/api/grants', grantRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/funder', funderRoutes);

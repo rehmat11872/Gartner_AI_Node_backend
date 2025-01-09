@@ -31,7 +31,7 @@ app.use('/api/funder', funderRoutes);
 app.use('/api/organization', organizationRoutes);
 
 // Home route
-app.get('/', (req, res) => {
+app.get('/healthcheck', (req, res) => {
   // If the client asks for JSON
   if (req.accepts('json')) {
     return res.json({ message: 'Welcome to the API' });

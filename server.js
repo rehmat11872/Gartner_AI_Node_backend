@@ -20,7 +20,16 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['http://localhost:3000/', 'https://granteaterai.netlify.app/', 'http://granteaterai.netlify.app'] // Add both production URLs
+    : ['http://localhost:3000', 'https://granteaterai.netlify.app'], // Add local development URL and the Netlify app
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type, Authorization',
+};
+
+app.use(cors(corsOptions));
 
 // Routes
 app.use('/api/auth', authRoutes);

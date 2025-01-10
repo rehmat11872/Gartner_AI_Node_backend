@@ -23,12 +23,12 @@ app.use(express.json());
 
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? ['http://localhost:3000/', 'https://granteaterai.netlify.app/', 'http://granteaterai.netlify.app'] // Add both production URLs
-    : ['http://localhost:3000', 'https://granteaterai.netlify.app'], // Add local development URL and the Netlify app
+  ? ['http://localhost:3000', 'https://granteaterai.netlify.app', 'http://granteaterai.netlify.app']
+  : ['http://localhost:3000', 'https://granteaterai.netlify.app'],
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type, Authorization',
 };
-
+app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
 
 // Routes

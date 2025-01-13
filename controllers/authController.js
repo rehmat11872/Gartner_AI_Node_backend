@@ -35,8 +35,14 @@ export const signup = async (req, res) => {
 
         // Exclude password from the response and return user object
         const userResponse = await User.findById(user._id).select('-password'); // Excluding the password field
-
-        res.status(201).json({  user: userResponse, message: 'User registered successfully' });
+        // Generate JWT
+        const token = jwt.sign(
+            { id: userResponse._id, email: userResponse.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+    
+        res.status(201).json({  user: userResponse,token, message: 'User registered successfully' });
     } catch (err) {
         console.error('Signup error:', err);
         res.status(500).json({ message: err.message });

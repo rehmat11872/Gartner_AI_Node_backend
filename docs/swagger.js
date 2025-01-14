@@ -17,12 +17,16 @@ const options = {
     servers: [
       {
         url: process.env.NODE_ENV === 'production' 
-          ? 'https://granteater-ai-node-backend.vercel.app' 
+          ? 'http://157.245.202.71/'
           : 'http://localhost:5000',
         description: process.env.NODE_ENV === 'production' ? 'Production server' : 'Local server',
       },
       {
-        url: 'http://granteater-ai-node-backend.vercel.app',  // Adding HTTP as an alternative for production (if needed)
+        url: 'http://157.245.202.71/',  // Adding HTTP as an alternative for production (if needed)
+        description: 'HTTP access to the API (fallback)',
+      },
+      {
+        url: 'https://granteater-ai-node-backend.vercel.app',  // Adding HTTP as an alternative for production (if needed)
         description: 'HTTP access to the API (fallback)',
       },
       
@@ -58,7 +62,7 @@ function swaggerDocs(app, port) {
   });
 
   console.log(`Swagger Docs available at ${process.env.NODE_ENV === 'production' 
-    ? 'https://granteater-ai-node-backend.vercel.app/api/docs' 
+    ? 'http://157.245.202.71/api/docs' 
     : `http://localhost:${port}/api/docs`}`);
 }
 

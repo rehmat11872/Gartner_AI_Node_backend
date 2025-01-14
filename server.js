@@ -26,8 +26,8 @@ app.use(express.json());
 const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = process.env.NODE_ENV === 'production'
-      ? ['http://localhost:3000', 'https://granteaterai.netlify.app', 'http://granteaterai.netlify.app']
-      : ['http://localhost:3000', 'https://granteaterai.netlify.app'];
+      ? ['http://localhost:3000', 'https://granteaterai.netlify.app', 'http://granteaterai.netlify.app', 'http://157.245.202.71']
+      : ['http://localhost:3000', 'https://granteaterai.netlify.app', 'http://157.245.202.71'];
 
     // Allow requests with no origin (like Postman or server-to-server)
     if (!origin || allowedOrigins.includes(origin)) {

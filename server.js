@@ -57,8 +57,12 @@ app.use('/api/organization', organizationRoutes);
 app.get('/healthcheck', (req, res) => {
   console.log('Healthcheck endpoint hit');
   if (req.accepts('json')) {
-    return res.json({ message: 'Welcome to the API' });
+    return res.json({ message: 'Welcome to the healthcheck' });
   }
+  return res.send('Welcome to the healthcheck');
+});
+
+app.get('/', (req, res) => {
   return res.send('Welcome to the API');
 });
 
@@ -69,9 +73,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${port}`);
 });
+
 
 // Export the app for deployment platforms like Vercel
 export default app;

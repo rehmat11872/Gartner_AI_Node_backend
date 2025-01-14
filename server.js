@@ -10,6 +10,7 @@ import questionRoutes from './routes/question.js';
 import funderRoutes from './routes/funder.js';
 import organizationRoutes from './routes/organization.js';
 import onBoardingRoutes from './routes/onBoarding.js';
+import aiResponseRoutes from './routes/aiResponse.js';
 
 dotenv.config();
 connectDB();
@@ -52,6 +53,7 @@ app.use('/api/grants', grantRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/funder', funderRoutes);
 app.use('/api/organization', organizationRoutes);
+app.use('/api/ai/response', aiResponseRoutes);
 
 // Health Check Route
 app.get('/healthcheck', (req, res) => {

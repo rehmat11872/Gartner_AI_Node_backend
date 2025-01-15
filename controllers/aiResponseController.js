@@ -1,14 +1,19 @@
-import { Configuration, OpenAIApi } from 'openai';
+import OpenAI from 'openai';  // Modify this import
+
 import Question from '../models/question.js';
 import Organization from '../models/organization.js';
 import Funder from '../models/funder.js';
 import User from '../models/user.js';
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 // Initialize OpenAI
-const configuration = new Configuration({
+const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
+    baseURL: 'https://api.openai.com/v1',
+    timeout: 5000, // Optional, you can adjust timeout if needed
 });
-const openai = new OpenAIApi(configuration);
 
 export const submitQuestion = async (req, res) => {
     const { userId, organizationId, funderId, questionText, tone, guidelines } = req.body;
@@ -46,8 +51,8 @@ export const submitQuestion = async (req, res) => {
         };
 
         // Call OpenAI API
-        const response = await openai.createChatCompletion({
-            model: 'gpt-4',
+        const response = await openai.chat.completions.create({
+            model: 'gpt-4', // Choose model
             messages: [
                 {
                     role: 'system',
@@ -59,7 +64,7 @@ export const submitQuestion = async (req, res) => {
             max_tokens: 1000, // Limit the response length
         });
 
-        const aiResponse = response.data.choices[0].message.content;
+        const aiResponse = response.choices[0].message.content;
 
         // Save the question and response to the database
         const question = new Question({
@@ -86,7 +91,7 @@ export const submitQuestion = async (req, res) => {
         console.error('Error submitting question:', error);
         res.status(500).json({ message: 'Internal server error', error: error.message });
     }
-};
+}
 
 
 

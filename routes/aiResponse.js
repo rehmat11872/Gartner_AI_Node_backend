@@ -1,4 +1,5 @@
 import express from 'express';
+import authenticate from '../middleware/authenticate.js';
 import { submitQuestion, listAIResponses, getResponsesByUserAndGrant } from '../controllers/aiResponseController.js';
 
 const router = express.Router();

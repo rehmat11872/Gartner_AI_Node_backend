@@ -29,6 +29,7 @@ export const createOrganization = async (req, res) => {
 
         // Update user's organization creation status
         const user = await User.findById(req.user._id);
+        user.organization_ids.push(organization._id);
         user.onboardingStatus = 'organization_created';
         user.hasCreatedOrganization = true;
         await user.save();
@@ -71,12 +72,31 @@ export const getOrganizationById = async (req, res) => {
  */
 export const updateOrganization = async (req, res) => {
     try {
+        // Find the organization by ID and update
         const updatedOrganization = await Organization.findByIdAndUpdate(
             req.params.id,
-            { $set: req.body },
+            { $set: req.body }, // Update the organization fields with the request body
             { new: true } // Return the updated document
         );
-        if (!updatedOrganization) return res.status(404).json({ message: 'Organization not found' });
+        
+        if (!updatedOrganization) {
+            return res.status(404).json({ message: 'Organization not found' });
+        }
+
+        // Optionally update the users associated with this organization
+        // Example: If organization name is changed, update the users
+        const { organizationName } = req.body; // Assuming the name is in the request body
+
+        if (organizationName) {
+            // Update the users who are associated with this organization
+            await User.updateMany(
+                { organization_ids: updatedOrganization._id },
+                { $set: { 'organization_ids.$[org].organizationName': organizationName } }, // Update the organizationName field for each user
+                { arrayFilters: [{ 'org': { $eq: updatedOrganization._id } }] } // Filter only the specific organization in the array
+            );
+        }
+
+        // Return the updated organization
         res.status(200).json({ message: 'Organization updated successfully.', updatedOrganization });
     } catch (err) {
         res.status(500).json({ message: 'Error updating organization.', error: err });
@@ -89,6 +109,11 @@ export const updateOrganization = async (req, res) => {
 export const deleteOrganization = async (req, res) => {
     try {
         const deletedOrganization = await Organization.findByIdAndDelete(req.params.id);
+        // Remove organization from all users associated with this organization
+        await User.updateMany(
+            { organization_ids: organization._id }, // Find users that have this organization ID
+            { $pull: { organization_ids: organization._id } } // Remove the organization ID from their organization_ids array
+        );
         if (!deletedOrganization) return res.status(404).json({ message: 'Organization not found' });
         res.status(200).json({ message: 'Organization deleted successfully' });
     } catch (err) {

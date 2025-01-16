@@ -28,6 +28,8 @@ export const signup = async (req, res) => {
             accountType: accountType || 'Basic',
             creditBalance: 0,
             onboardingStatus: 'incomplete',
+            organization_ids: [],
+            funder_ids: []
         });
 
         // Save the user to the database

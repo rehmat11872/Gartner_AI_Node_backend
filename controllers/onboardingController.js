@@ -26,6 +26,7 @@ const completeOnboarding = async (req, res) => {
             await funder.save();
             
             // Update user's funder status
+            user.funder_ids.push(funder._id);
             user.onboardingStatus = 'funder_created';
             user.hasCreatedFunder = true;
         }
